@@ -1,34 +1,32 @@
-import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { increment, decrement, reset } from '../counter.actions';
+import { Component } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+import { increment, decrement, reset } from "../counter.actions";
 
 @Component({
-  selector: 'app-my-counter',
-  templateUrl: './my-counter.component.html',
+    selector: "app-my-counter",
+    templateUrl: "./my-counter.component.html",
 })
 export class MyCounterComponent {
-  count$: Observable<number>;
+    // 4/6 HTMLで使用するObservableな変数を作成
+    count$: Observable<number>;
 
-  constructor(private store: Store<{ count: number }>) {
-    this.count$ = store.select('count');
-  }
+    constructor(private store: Store<{ countForRoot: number }>) {
+        // 5/6 ストアのカウント状態に接続させる
+        // このとき、StoreModule.forRootで設定したキーと同じ名前にする必要がある
+        this.count$ = store.select("countForRoot");
+    }
 
-  increment() {
-    this.store.dispatch(increment());
-  }
+    clickIncrementButton() {
+        // 6/6 dispatchを通してreducerの関数を使用する
+        this.store.dispatch(increment());
+    }
 
-  decrement() {
-    this.store.dispatch(decrement());
-  }
+    clickDecrementButton() {
+        this.store.dispatch(decrement());
+    }
 
-  reset() {
-    this.store.dispatch(reset());
-  }
+    clickResetButton() {
+        this.store.dispatch(reset());
+    }
 }
-
-
-/*
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at https://github.com/ngrx/platform
-*/
